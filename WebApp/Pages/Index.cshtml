@@ -34,7 +34,7 @@
                         <td><a href="/employees/@e.Id">@e.Id</a></td>
                         <td class="employee-name">@e.Name</td>
                         <td class="employee-email">@e.Email</td>
-                        <td>@(e.Apartment is not null ? $"{e.Apartment.Street}, {e.Apartment.City}" : "—")</td>
+                        <td>@(e.Apartment is not null ? $"{e.Apartment.Street}, {e.Apartment.ZipCode} {e.Apartment.City}" : "—")</td>
                     </tr>
                 }
             </tbody>
