@@ -14,7 +14,7 @@ public abstract class PlaywrightTestBase : IAsyncLifetime
 
     protected virtual string BaseUrl =>
         Environment.GetEnvironmentVariable("TEST_BASE_URL")
-        ?? "http://localhost:5000";
+        ?? "https://localhost:5000";
 
     public virtual async ValueTask InitializeAsync()
     {

@@ -22,8 +22,7 @@ public class EmployeeTests : PlaywrightTestBase
     [Fact]
     public async Task Employee_Should_See_Correct_City_After_Override()
     {
-        var apartment = await Seed.SeedAsync(
-            ApartmentBuilder.Default(a => a.City = "Graz"));
+        var apartment = await Seed.SeedAsync(ApartmentBuilder.Default(a => a.City = "Graz"));
         var employee = await Seed.SeedAsync(EmployeeBuilder.Default(apartment.Id));
 
         await Page.GotoAsync($"/employees/{employee.Id}");
