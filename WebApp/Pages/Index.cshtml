@@ -1,0 +1,70 @@
+@page
+@model WebApp.Pages.IndexModel
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>POC — Test Data Seeding</title>
+    <style>
+        body { font-family: sans-serif; padding: 2rem; }
+        table { border-collapse: collapse; width: 100%; margin-bottom: 2rem; }
+        th, td { border: 1px solid #ccc; padding: 0.5rem 1rem; text-align: left; }
+        th { background: #f0f0f0; }
+        h2 { margin-top: 2rem; }
+    </style>
+</head>
+<body>
+    <h1>POC — Test Data Seeding</h1>
+
+    <h2>Employees (@Model.Employees.Count)</h2>
+    @if (Model.Employees.Count == 0)
+    {
+        <p>No employees in database.</p>
+    }
+    else
+    {
+        <table>
+            <thead>
+                <tr><th>Id</th><th>Name</th><th>Email</th><th>Apartment</th></tr>
+            </thead>
+            <tbody>
+                @foreach (var e in Model.Employees)
+                {
+                    <tr>
+                        <td><a href="/employees/@e.Id">@e.Id</a></td>
+                        <td class="employee-name">@e.Name</td>
+                        <td class="employee-email">@e.Email</td>
+                        <td>@(e.Apartment is not null ? $"{e.Apartment.Street}, {e.Apartment.City}" : "—")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+
+    <h2>Apartments (@Model.Apartments.Count)</h2>
+    @if (Model.Apartments.Count == 0)
+    {
+        <p>No apartments in database.</p>
+    }
+    else
+    {
+        <table>
+            <thead>
+                <tr><th>Id</th><th>Street</th><th>City</th><th>Zip</th><th>Employees</th></tr>
+            </thead>
+            <tbody>
+                @foreach (var a in Model.Apartments)
+                {
+                    <tr>
+                        <td>@a.Id</td>
+                        <td class="apartment-street">@a.Street</td>
+                        <td class="apartment-city">@a.City</td>
+                        <td class="apartment-zipcode">@a.ZipCode</td>
+                        <td>@a.Employees.Count</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</body>
+</html>

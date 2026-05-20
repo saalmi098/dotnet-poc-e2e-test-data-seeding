@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dotnet new *)",
+      "Bash(dotnet sln *)",
+      "Bash(dotnet restore *)",
+      "Bash(dotnet build *)",
+      "Bash(Remove-Item \"C:\\\\Users\\\\Andi\\\\repos\\\\poc-test-data-seeding\\\\E2ETests\\\\Entities\\\\Apartment.cs\")",
+      "Bash(Remove-Item \"C:\\\\Users\\\\Andi\\\\repos\\\\poc-test-data-seeding\\\\E2ETests\\\\Entities\\\\Employee.cs\")",
+      "Bash(Remove-Item \"C:\\\\Users\\\\Andi\\\\repos\\\\poc-test-data-seeding\\\\E2ETests\\\\Infrastructure\\\\AppDbContext.cs\")",
+      "Bash(Remove-Item \"C:\\\\Users\\\\Andi\\\\repos\\\\poc-test-data-seeding\\\\E2ETests\\\\Entities\" -Recurse)"
+    ]
+  }
+}

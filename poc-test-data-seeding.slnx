@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="E2ETests/E2ETests.csproj" />
+  <Project Path="WebApp/WebApp.csproj" />
+</Solution>

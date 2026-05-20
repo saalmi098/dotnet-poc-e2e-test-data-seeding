@@ -1,0 +1,22 @@
+@page "/employees/{id:int}"
+@model WebApp.Pages.Employees.DetailModel
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Employee — @Model.Employee?.Name</title>
+</head>
+<body>
+    <h1 class="employee-name">@Model.Employee?.Name</h1>
+    <p class="employee-email">@Model.Employee?.Email</p>
+
+    @if (Model.Employee?.Apartment != null)
+    {
+        <section class="apartment">
+            <span class="apartment-street">@Model.Employee.Apartment.Street</span>,
+            <span class="apartment-zipcode">@Model.Employee.Apartment.ZipCode</span>
+            <span class="apartment-city">@Model.Employee.Apartment.City</span>
+        </section>
+    }
+</body>
+</html>
