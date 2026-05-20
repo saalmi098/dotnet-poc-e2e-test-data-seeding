@@ -10,7 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\WebApp\WebApp.csproj" />
-    <ProjectReference Include="..\E2ETests.Shared\E2ETests.Shared.csproj" />
+    <ProjectReference Include="..\E2ETests.Shared.Seeding\E2ETests.Shared.Seeding.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,6 +1,6 @@
 using WebApp.Entities;
 
-namespace E2ETests.Shared.Builders;
+namespace E2ETests.Shared.Seeding.Builders;
 
 public static class DepartmentBuilder
 {

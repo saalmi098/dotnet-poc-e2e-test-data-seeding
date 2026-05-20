@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using WebApp.Data;
 
-namespace E2ETests.Shared.Infrastructure;
+namespace E2ETests.Shared.Seeding.Infrastructure;
 
 public static class DbContextFactory
 {

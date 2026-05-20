@@ -1,8 +1,8 @@
-using E2ETests.Shared.Infrastructure;
+using E2ETests.Shared.Seeding.Infrastructure;
 using Microsoft.Playwright;
 using Xunit;
 
-namespace E2ETests.SeedInBody.Infrastructure;
+namespace E2ETests.ApproachA.SeedInBody.Infrastructure;
 
 public abstract class PlaywrightTestBase : IAsyncLifetime
 {

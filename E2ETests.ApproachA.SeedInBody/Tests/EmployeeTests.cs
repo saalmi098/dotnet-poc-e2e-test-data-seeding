@@ -1,9 +1,9 @@
-using E2ETests.Shared.Builders;
-using E2ETests.SeedInBody.Infrastructure;
+using E2ETests.Shared.Seeding.Builders;
 using Xunit;
 using static Microsoft.Playwright.Assertions;
+using E2ETests.ApproachA.SeedInBody.Infrastructure;
 
-namespace E2ETests.SeedInBody.Tests;
+namespace E2ETests.ApproachA.SeedInBody.Tests;
 
 public class EmployeeTests : PlaywrightTestBase
 {

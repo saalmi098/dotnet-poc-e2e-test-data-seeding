@@ -1,6 +1,6 @@
 using WebApp.Data;
 
-namespace E2ETests.Shared.Infrastructure;
+namespace E2ETests.Shared.Seeding.Infrastructure;
 
 public sealed class SeedingContext : IAsyncDisposable
 {
