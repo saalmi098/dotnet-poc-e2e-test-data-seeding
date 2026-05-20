@@ -1,5 +1,6 @@
 <Solution>
   <Project Path="E2ETests.Shared.Seeding/E2ETests.Shared.Seeding.csproj" />
   <Project Path="E2ETests.ApproachA.SeedInBody/E2ETests.ApproachA.SeedInBody.csproj" />
+  <Project Path="E2ETests.ApproachB.SeedAsParam/E2ETests.ApproachB.SeedAsParam.csproj" />
   <Project Path="WebApp/WebApp.csproj" />
 </Solution>
