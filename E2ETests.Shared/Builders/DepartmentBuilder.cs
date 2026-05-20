@@ -1,6 +1,6 @@
 using WebApp.Entities;
 
-namespace E2ETests.Builders;
+namespace E2ETests.Shared.Builders;
 
 public static class DepartmentBuilder
 {

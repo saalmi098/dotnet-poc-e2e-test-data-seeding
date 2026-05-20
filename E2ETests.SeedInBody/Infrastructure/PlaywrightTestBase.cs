@@ -1,7 +1,8 @@
+using E2ETests.Shared.Infrastructure;
 using Microsoft.Playwright;
 using Xunit;
 
-namespace E2ETests.Infrastructure;
+namespace E2ETests.SeedInBody.Infrastructure;
 
 public abstract class PlaywrightTestBase : IAsyncLifetime
 {
@@ -28,7 +29,7 @@ public abstract class PlaywrightTestBase : IAsyncLifetime
         _browser = await _playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions
         {
             Headless = !headed,
-            SlowMo = headed ? 500 : 0   // slow down actions when watching
+            SlowMo = headed ? 500 : 0
         });
         BrowserContext = await _browser.NewContextAsync(new BrowserNewContextOptions
         {
