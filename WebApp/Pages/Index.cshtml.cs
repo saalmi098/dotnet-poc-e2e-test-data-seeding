@@ -8,18 +8,18 @@ namespace WebApp.Pages;
 public class IndexModel(AppDbContext db) : PageModel
 {
     public List<Employee> Employees { get; private set; } = [];
-    public List<Apartment> Apartments { get; private set; } = [];
+    public List<Department> Departments { get; private set; } = [];
 
     public async Task OnGetAsync()
     {
         Employees = await db.Employees
-            .Include(e => e.Apartment)
+            .Include(e => e.Department)
             .OrderBy(e => e.Id)
             .ToListAsync();
 
-        Apartments = await db.Apartments
-            .Include(a => a.Employees)
-            .OrderBy(a => a.Id)
+        Departments = await db.Departments
+            .Include(d => d.Employees)
+            .OrderBy(d => d.Id)
             .ToListAsync();
     }
 }

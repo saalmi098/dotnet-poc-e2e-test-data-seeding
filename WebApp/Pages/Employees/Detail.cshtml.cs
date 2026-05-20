@@ -13,7 +13,7 @@ public class DetailModel(AppDbContext db) : PageModel
     public async Task<IActionResult> OnGetAsync(int id)
     {
         Employee = await db.Employees
-            .Include(e => e.Apartment)
+            .Include(e => e.Department)
             .FirstOrDefaultAsync(e => e.Id == id);
 
         return Employee is null ? NotFound() : Page();

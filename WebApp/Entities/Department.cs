@@ -1,6 +1,6 @@
 namespace WebApp.Entities;
 
-public class Apartment
+public class Department
 {
     public int Id { get; set; }
     public string Street { get; set; } = "";

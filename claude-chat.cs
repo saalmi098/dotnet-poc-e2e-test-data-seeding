@@ -11,9 +11,9 @@
   1. Tech Stack: C#, Playwright, xUnit V3, Entity Framework Core     
   (for database access).                                             
   2. Entities: I have an `Employee` object (with various metadata)   
-  and an associated `Apartment` object.                              
+  and an associated `Department` object.                              
   3. Test Data Seeding: Before the test starts, these objects        
-  (Employee + Apartment) must be inserted into the database.         
+  (Employee + Department) must be inserted into the database.         
   4. Parameter Resolving: The seeded objects should be provided      
   directly to the test as parameters. The test itself should not     
   need to call any manual database setup methods.                    
@@ -26,12 +26,12 @@
   ```csharp                                                          
   [Fact/Theory]                                                      
   public async Task                                                  
-  Employee_Should_See_Correct_Apartment_Address(Employee             
+  Employee_Should_See_Correct_Department_Address(Employee             
   seededEmployee)                                                    
   {                                                                  
       await Page.GotoAsync($"/employees/{seededEmployee.Id}");       
-      await Expect(Page.Locator(".apartment-street")).ToHaveTextAsyn 
-  c(seededEmployee.Apartment.Street);                                
+      await Expect(Page.Locator(".Department-street")).ToHaveTextAsyn 
+  c(seededEmployee.Department.Street);                                
   }                                                                  
                                                                      
   ```                                                                
@@ -81,7 +81,7 @@
   │   └── PlaywrightTestBase.cs        # Base class: browser + DB lifecycle
   ├── Builders/
   │   ├── EmployeeBuilder.cs
-  │   └── ApartmentBuilder.cs
+  │   └── DepartmentBuilder.cs
   ├── Attributes/
   │   └── SeedEmployeeAttribute.cs     # xUnit v3 DataAttribute (Approach B)
   └── Tests/
@@ -90,7 +90,7 @@
   ---
   Entities
 
-  public class Apartment
+  public class Department
   {
       public int Id { get; set; }
       public string Street { get; set; } = "";
@@ -103,8 +103,8 @@
       public int    Id        { get; set; }
       public string Name      { get; set; } = "";
       public string Email     { get; set; } = "";
-      public int?   ApartmentId { get; set; }
-      public Apartment? Apartment { get; set; }
+      public int?   DepartmentId { get; set; }
+      public Department? Department { get; set; }
   }
 
   ---
@@ -156,7 +156,7 @@
       }
   }
 
-  Stack = reverse-order teardown. Employee deleted before Apartment if Apartment seeded first.
+  Stack = reverse-order teardown. Employee deleted before Department if Department seeded first.
 
   ---
   Approach A — PlaywrightTestBase + SeedingContext (Recommended)
@@ -203,7 +203,7 @@
           {
               Name  = $"Test Employee {uid}",
               Email = $"test_{uid}@example.com",
-              Apartment = new Apartment
+              Department = new Department
               {
                   Street  = "Hauptstraße 42",
                   City    = "Vienna",
@@ -220,21 +220,21 @@
   public class EmployeeTests : PlaywrightTestBase
   {
       [Fact]
-      public async Task Employee_Should_See_Correct_Apartment_Address()
+      public async Task Employee_Should_See_Correct_Department_Address()
       {
           var employee = await Seed.SeedAsync(EmployeeBuilder.Default());
 
           await Page.GotoAsync($"/employees/{employee.Id}");
 
-          await Expect(Page.Locator(".apartment-street"))
-              .ToHaveTextAsync(employee.Apartment!.Street);
+          await Expect(Page.Locator(".Department-street"))
+              .ToHaveTextAsync(employee.Department!.Street);
       }
 
       [Fact]
       public async Task Employee_Form_Shows_Correct_City()
       {
           var employee = await Seed.SeedAsync(
-              EmployeeBuilder.Default(e => e.Apartment!.City = "Graz"));
+              EmployeeBuilder.Default(e => e.Department!.City = "Graz"));
 
           await Page.GotoAsync($"/employees/{employee.Id}/edit");
 
@@ -296,14 +296,14 @@
   {
       [Theory]
       [SeedEmployee]
-      public async Task Employee_Should_See_Correct_Apartment_Address(SeededEmployee ctx)
+      public async Task Employee_Should_See_Correct_Department_Address(SeededEmployee ctx)
       {
           var employee = ctx.Value;
 
           await Page.GotoAsync($"/employees/{employee.Id}");
 
-          await Expect(Page.Locator(".apartment-street"))
-              .ToHaveTextAsync(employee.Apartment!.Street);
+          await Expect(Page.Locator(".Department-street"))
+              .ToHaveTextAsync(employee.Department!.Street);
       }
   }
 

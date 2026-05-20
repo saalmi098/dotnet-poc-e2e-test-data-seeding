@@ -8,37 +8,37 @@ namespace E2ETests.Tests;
 public class EmployeeTests : PlaywrightTestBase
 {
     [Fact]
-    public async Task Employee_Should_See_Correct_Apartment_Street()
+    public async Task Employee_Should_See_Correct_Department_Street()
     {
-        var apartment = await Seed.SeedAsync(ApartmentBuilder.Default());
-        var employee = await Seed.SeedAsync(EmployeeBuilder.Default(apartment.Id));
+        var department = await Seed.SeedAsync(DepartmentBuilder.Default());
+        var employee = await Seed.SeedAsync(EmployeeBuilder.Default(department.Id));
 
         await Page.GotoAsync($"/employees/{employee.Id}");
 
-        await Expect(Page.Locator(".apartment-street"))
-            .ToHaveTextAsync(apartment.Street);
+        await Expect(Page.Locator(".department-street"))
+            .ToHaveTextAsync(department.Street);
     }
 
     [Fact]
     public async Task Employee_Should_See_Correct_City_After_Override()
     {
-        var apartment = await Seed.SeedAsync(ApartmentBuilder.Default(a => a.City = "Graz"));
-        var employee = await Seed.SeedAsync(EmployeeBuilder.Default(apartment.Id));
+        var department = await Seed.SeedAsync(DepartmentBuilder.Default(d => d.City = "Graz"));
+        var employee = await Seed.SeedAsync(EmployeeBuilder.Default(department.Id));
 
         await Page.GotoAsync($"/employees/{employee.Id}");
 
-        await Expect(Page.Locator(".apartment-city"))
+        await Expect(Page.Locator(".department-city"))
             .ToHaveTextAsync("Graz");
     }
 
     [Fact]
-    public async Task Employee_Without_Apartment_Shows_No_Address()
+    public async Task Employee_Without_Department_Shows_No_Address()
     {
         var employee = await Seed.SeedAsync(EmployeeBuilder.Default());
 
         await Page.GotoAsync($"/employees/{employee.Id}");
 
-        await Expect(Page.Locator(".apartment-street"))
+        await Expect(Page.Locator(".department-street"))
             .Not.ToBeVisibleAsync();
     }
 }

@@ -25,7 +25,7 @@
     {
         <table>
             <thead>
-                <tr><th>Id</th><th>Name</th><th>Email</th><th>Apartment</th></tr>
+                <tr><th>Id</th><th>Name</th><th>Email</th><th>Department</th></tr>
             </thead>
             <tbody>
                 @foreach (var e in Model.Employees)
@@ -34,17 +34,17 @@
                         <td><a href="/employees/@e.Id">@e.Id</a></td>
                         <td class="employee-name">@e.Name</td>
                         <td class="employee-email">@e.Email</td>
-                        <td>@(e.Apartment is not null ? $"{e.Apartment.Street}, {e.Apartment.ZipCode} {e.Apartment.City}" : "—")</td>
+                        <td>@(e.Department is not null ? $"{e.Department.Street}, {e.Department.ZipCode} {e.Department.City}" : "—")</td>
                     </tr>
                 }
             </tbody>
         </table>
     }
 
-    <h2>Apartments (@Model.Apartments.Count)</h2>
-    @if (Model.Apartments.Count == 0)
+    <h2>Departments (@Model.Departments.Count)</h2>
+    @if (Model.Departments.Count == 0)
     {
-        <p>No apartments in database.</p>
+        <p>No departments in database.</p>
     }
     else
     {
@@ -53,13 +53,13 @@
                 <tr><th>Id</th><th>Street</th><th>City</th><th>Zip</th><th>Employees</th></tr>
             </thead>
             <tbody>
-                @foreach (var a in Model.Apartments)
+                @foreach (var a in Model.Departments)
                 {
                     <tr>
                         <td>@a.Id</td>
-                        <td class="apartment-street">@a.Street</td>
-                        <td class="apartment-city">@a.City</td>
-                        <td class="apartment-zipcode">@a.ZipCode</td>
+                        <td class="department-street">@a.Street</td>
+                        <td class="department-city">@a.City</td>
+                        <td class="department-zipcode">@a.ZipCode</td>
                         <td>@a.Employees.Count</td>
                     </tr>
                 }

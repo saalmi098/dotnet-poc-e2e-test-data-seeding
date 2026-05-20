@@ -10,12 +10,12 @@
     <h1 class="employee-name">@Model.Employee?.Name</h1>
     <p class="employee-email">@Model.Employee?.Email</p>
 
-    @if (Model.Employee?.Apartment != null)
+    @if (Model.Employee?.Department != null)
     {
-        <section class="apartment">
-            <span class="apartment-street">@Model.Employee.Apartment.Street</span>,
-            <span class="apartment-zipcode">@Model.Employee.Apartment.ZipCode</span>
-            <span class="apartment-city">@Model.Employee.Apartment.City</span>
+        <section class="department">
+            <span class="department-street">@Model.Employee.Department.Street</span>,
+            <span class="department-zipcode">@Model.Employee.Department.ZipCode</span>
+            <span class="department-city">@Model.Employee.Department.City</span>
         </section>
     }
 </body>
