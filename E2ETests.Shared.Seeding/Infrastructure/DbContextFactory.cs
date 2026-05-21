@@ -9,13 +9,12 @@ public static class DbContextFactory
         Environment.GetEnvironmentVariable("TEST_DB_CONNECTION")
         ?? "Host=localhost;Port=5432;Database=testdb;Username=postgres;Password=postgres";
 
-    public static AppDbContext Create()
-    {
-        var options = new DbContextOptionsBuilder<AppDbContext>()
+    private static readonly DbContextOptions<AppDbContext> _options =
+        new DbContextOptionsBuilder<AppDbContext>()
             .UseNpgsql(ConnectionString)
             .Options;
-        return new AppDbContext(options);
-    }
+
+    public static AppDbContext Create() => new(_options);
 
     public static async Task EnsureSchemaAsync()
     {
