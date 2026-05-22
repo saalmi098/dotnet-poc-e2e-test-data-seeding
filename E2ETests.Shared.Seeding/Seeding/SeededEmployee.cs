@@ -3,19 +3,10 @@ using WebApp.Entities;
 
 namespace E2ETests.Shared.Seeding.Seeding;
 
-public sealed class SeededEmployee : IAsyncDisposable
+public sealed class SeededEmployee(Employee employee, Department? department, SeedingContext seed) : IAsyncDisposable
 {
-    public Employee Employee { get; }
-    public Department? Department { get; }
+    public Employee Employee { get; } = employee;
+    public Department? Department { get; } = department;
 
-    private readonly SeedingContext _seed;
-
-    public SeededEmployee(Employee employee, Department? department, SeedingContext seed)
-    {
-        Employee = employee;
-        Department = department;
-        _seed = seed;
-    }
-
-    public async ValueTask DisposeAsync() => await _seed.DisposeAsync();
+    public async ValueTask DisposeAsync() => await seed.DisposeAsync();
 }
