@@ -58,7 +58,10 @@
         </table>
     }
 
-    <h2>Departments (@Model.Departments.Count)</h2>
+    <div class="toolbar">
+        <h2 style="margin: 0">Departments (@Model.Departments.Count)</h2>
+        <a href="/departments" class="btn-add">+ Add Department</a>
+    </div>
     @if (Model.Departments.Count == 0)
     {
         <p>No departments in database.</p>
@@ -72,7 +75,7 @@
             <tbody>
                 @foreach (var a in Model.Departments)
                 {
-                    <tr>
+                    <tr onclick="location.href='/departments/@a.Id'">
                         <td>@a.Id</td>
                         <td class="department-street">@a.Street</td>
                         <td class="department-city">@a.City</td>

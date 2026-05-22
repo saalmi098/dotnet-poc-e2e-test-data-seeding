@@ -1,0 +1,110 @@
+@page "/departments/{id:int?}"
+@model WebApp.Pages.Departments.DepartmentDetailModel
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>@(Model.Department is null ? "New Department" : $"Department — {Model.Department.City}")</title>
+    <style>
+        body { font-family: sans-serif; padding: 2rem; max-width: 540px; }
+        h1 { margin-bottom: 0.25rem; }
+        .subtitle { color: #888; margin-bottom: 2rem; font-size: 0.9rem; }
+        .form-group { display: flex; flex-direction: column; gap: 0.35rem; margin-bottom: 1.25rem; }
+        label { font-weight: bold; font-size: 0.85rem; color: #555; }
+        input {
+            padding: 0.5rem 0.75rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-family: inherit;
+        }
+        input:focus { outline: none; border-color: #555; }
+        .employees-list {
+            background: #f0f0f0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 0.6rem 0.75rem;
+            font-size: 0.9rem;
+            color: #444;
+            margin-top: 0.25rem;
+        }
+        .employees-list ul { margin: 0.25rem 0 0; padding-left: 1.25rem; }
+        .actions { display: flex; gap: 0.75rem; margin-top: 1.5rem; align-items: center; }
+        .btn-save {
+            padding: 0.5rem 1.5rem;
+            background: #222;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+        .btn-save:hover { background: #444; }
+        .btn-back {
+            padding: 0.5rem 1rem;
+            background: #fff;
+            color: #444;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1rem;
+            text-decoration: none;
+        }
+        .btn-back:hover { background: #f0f0f0; }
+        .btn-delete {
+            padding: 0.5rem 1rem;
+            background: #fff;
+            color: #c0392b;
+            border: 1px solid #c0392b;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+        .btn-delete:hover { background: #c0392b; color: #fff; }
+    </style>
+</head>
+<body>
+    <p class="subtitle"><a href="/" class="btn-back">← Overview</a></p>
+    <h1>@(Model.Department is null ? "New Department" : "Edit Department")</h1>
+
+    <form method="post">
+        <div class="form-group">
+            <label for="Street">Street</label>
+            <input id="Street" name="Street" class="department-street" value="@Model.Street" required />
+        </div>
+        <div class="form-group">
+            <label for="ZipCode">Zip Code</label>
+            <input id="ZipCode" name="ZipCode" class="department-zipcode" value="@Model.ZipCode" required />
+        </div>
+        <div class="form-group">
+            <label for="City">City</label>
+            <input id="City" name="City" class="department-city" value="@Model.City" required />
+        </div>
+
+        @if (Model.Department?.Employees.Count > 0)
+        {
+            <div class="employees-list">
+                <strong>Employees (@Model.Department.Employees.Count)</strong>
+                <ul>
+                    @foreach (var e in Model.Department.Employees)
+                    {
+                        <li><a href="/employees/@e.Id">@e.Name</a></li>
+                    }
+                </ul>
+            </div>
+        }
+
+        <div class="actions">
+            <button type="submit" class="btn-save save-button">@(Model.Department is null ? "Create" : "Save")</button>
+            <a href="/" class="btn-back">Cancel</a>
+        </div>
+    </form>
+
+    @if (Model.Department is not null)
+    {
+        <form method="post" style="margin-top: 3rem; border-top: 1px solid #eee; padding-top: 1.5rem;">
+            <button type="submit" asp-page-handler="Delete" class="btn-delete delete-button"
+                    onclick="return confirm('Delete this department? Employees will be unassigned.')">Delete Department</button>
+        </form>
+    }
+</body>
+</html>
