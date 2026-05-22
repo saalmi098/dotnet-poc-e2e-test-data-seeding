@@ -8,7 +8,7 @@ namespace E2ETests.ApproachA.SeedInBody.Tests;
 public class EmployeeTests : PlaywrightTestBase
 {
     [Fact]
-    public async Task Employee_Should_See_Correct_Department_Street()
+    public async Task Employee_ShouldSeeCorrectDepartmentStreet()
     {
         var department = await Seed.SeedAsync(DepartmentBuilder.Default());
         var employee = await Seed.SeedAsync(EmployeeBuilder.Default(department.Id));
@@ -20,7 +20,7 @@ public class EmployeeTests : PlaywrightTestBase
     }
 
     [Fact]
-    public async Task Employee_Should_See_Correct_City_After_Override()
+    public async Task Employee_ShouldSeeCorrectCity_AfterOverride()
     {
         var department = await Seed.SeedAsync(DepartmentBuilder.Default(d => d.City = "Graz"));
         var employee = await Seed.SeedAsync(EmployeeBuilder.Default(department.Id));
@@ -32,7 +32,7 @@ public class EmployeeTests : PlaywrightTestBase
     }
 
     [Fact]
-    public async Task Employee_Without_Department_Shows_No_Address()
+    public async Task Employee_WithoutDepartment_ShowsNoAddress()
     {
         var employee = await Seed.SeedAsync(EmployeeBuilder.Default());
 
@@ -40,5 +40,18 @@ public class EmployeeTests : PlaywrightTestBase
 
         await Expect(Page.Locator(".department-street"))
             .Not.ToBeVisibleAsync();
+    }
+
+    [Fact]
+    public async Task Employee_UpdateName_ShouldPersistAfterSave()
+    {
+        var employee = await Seed.SeedAsync(EmployeeBuilder.Default());
+
+        await Page.GotoAsync($"/employees/{employee.Id}");
+        await Page.Locator("#Name").FillAsync("Updated Name");
+        await Page.Locator(".save-button").ClickAsync();
+
+        await Page.GotoAsync($"/employees/{employee.Id}");
+        await Expect(Page.Locator(".employee-name")).ToHaveValueAsync("Updated Name");
     }
 }

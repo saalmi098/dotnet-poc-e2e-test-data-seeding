@@ -10,7 +10,7 @@ public class EmployeeTests : PlaywrightTestBase
 {
     [Theory]
     [SeedEmployeeWithDepartment]
-    public async Task Employee_Should_See_Correct_Department_Street(SeededEmployee ctx)
+    public async Task Employee_ShouldSeeCorrectDepartmentStreet(SeededEmployee ctx)
     {
         await Page.GotoAsync($"/employees/{ctx.Employee.Id}");
 
@@ -20,7 +20,7 @@ public class EmployeeTests : PlaywrightTestBase
 
     [Theory]
     [SeedEmployeeWithDepartment(City = "Graz")]
-    public async Task Employee_Should_See_Correct_City_After_Override(SeededEmployee ctx)
+    public async Task Employee_ShouldSeeCorrectCity_AfterOverride(SeededEmployee ctx)
     {
         await Page.GotoAsync($"/employees/{ctx.Employee.Id}");
 
@@ -30,11 +30,23 @@ public class EmployeeTests : PlaywrightTestBase
 
     [Theory]
     [SeedEmployee]
-    public async Task Employee_Without_Department_Shows_No_Address(SeededEmployee ctx)
+    public async Task Employee_WithoutDepartment_ShowsNoAddress(SeededEmployee ctx)
     {
         await Page.GotoAsync($"/employees/{ctx.Employee.Id}");
 
         await Expect(Page.Locator(".department-street"))
             .Not.ToBeVisibleAsync();
+    }
+
+    [Theory]
+    [SeedEmployee]
+    public async Task Employee_UpdateName_ShouldPersistAfterSave(SeededEmployee ctx)
+    {
+        await Page.GotoAsync($"/employees/{ctx.Employee.Id}");
+        await Page.Locator("#Name").FillAsync("Updated Name");
+        await Page.Locator(".save-button").ClickAsync();
+
+        await Page.GotoAsync($"/employees/{ctx.Employee.Id}");
+        await Expect(Page.Locator(".employee-name")).ToHaveValueAsync("Updated Name");
     }
 }
