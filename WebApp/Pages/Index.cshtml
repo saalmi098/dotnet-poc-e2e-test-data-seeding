@@ -11,12 +11,29 @@
         th, td { border: 1px solid #ccc; padding: 0.5rem 1rem; text-align: left; }
         th { background: #f0f0f0; }
         h2 { margin-top: 2rem; }
+        tbody tr { cursor: pointer; }
+        tbody tr:hover { background: #f9f9f9; }
+        .toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; }
+        .btn-add {
+            padding: 0.4rem 1rem;
+            background: #222;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .btn-add:hover { background: #444; }
     </style>
 </head>
 <body>
     <h1>POC — Test Data Seeding</h1>
 
-    <h2>Employees (@Model.Employees.Count)</h2>
+    <div class="toolbar">
+        <h2 style="margin: 0">Employees (@Model.Employees.Count)</h2>
+        <a href="/employees" class="btn-add">+ Add Employee</a>
+    </div>
     @if (Model.Employees.Count == 0)
     {
         <p>No employees in database.</p>
@@ -30,8 +47,8 @@
             <tbody>
                 @foreach (var e in Model.Employees)
                 {
-                    <tr>
-                        <td><a href="/employees/@e.Id">@e.Id</a></td>
+                    <tr onclick="location.href='/employees/@e.Id'">
+                        <td>@e.Id</td>
                         <td class="employee-name">@e.Name</td>
                         <td class="employee-email">@e.Email</td>
                         <td>@(e.Department is not null ? $"{e.Department.Street}, {e.Department.ZipCode} {e.Department.City}" : "—")</td>

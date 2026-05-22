@@ -1,0 +1,112 @@
+@page "/employees/{id:int?}"
+@model WebApp.Pages.Employees.EmployeeDetailModel
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>@(Model.Employee is null ? "New Employee" : $"Employee — {Model.Employee.Name}")</title>
+    <style>
+        body { font-family: sans-serif; padding: 2rem; max-width: 540px; }
+        h1 { margin-bottom: 0.25rem; }
+        .subtitle { color: #888; margin-bottom: 2rem; font-size: 0.9rem; }
+        .form-group { display: flex; flex-direction: column; gap: 0.35rem; margin-bottom: 1.25rem; }
+        label { font-weight: bold; font-size: 0.85rem; color: #555; }
+        input, select {
+            padding: 0.5rem 0.75rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-family: inherit;
+        }
+        input:focus, select:focus { outline: none; border-color: #555; }
+        .department-info {
+            background: #f0f0f0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 0.6rem 0.75rem;
+            font-size: 0.9rem;
+            color: #444;
+            margin-top: 0.25rem;
+        }
+        .actions { display: flex; gap: 0.75rem; margin-top: 1.5rem; align-items: center; }
+        .btn-save {
+            padding: 0.5rem 1.5rem;
+            background: #222;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+        .btn-save:hover { background: #444; }
+        .btn-back {
+            padding: 0.5rem 1rem;
+            background: #fff;
+            color: #444;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1rem;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .btn-back:hover { background: #f0f0f0; }
+        .btn-delete {
+            padding: 0.5rem 1rem;
+            background: #fff;
+            color: #c0392b;
+            border: 1px solid #c0392b;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+        .btn-delete:hover { background: #c0392b; color: #fff; }
+    </style>
+</head>
+<body>
+    <p class="subtitle"><a href="/" class="btn-back">← Overview</a></p>
+    <h1>@(Model.Employee is null ? "New Employee" : "Edit Employee")</h1>
+
+    <form method="post">
+        <div class="form-group">
+            <label for="Name">Name</label>
+            <input id="Name" name="Name" class="employee-name" value="@Model.Name" required />
+        </div>
+        <div class="form-group">
+            <label for="Email">Email</label>
+            <input id="Email" name="Email" type="email" class="employee-email" value="@Model.Email" required />
+        </div>
+        <div class="form-group">
+            <label for="DepartmentId">Department</label>
+            <select id="DepartmentId" name="DepartmentId" class="employee-department">
+                <option value="">— none —</option>
+                @foreach (var dept in Model.Departments)
+                {
+                    <option value="@dept.Value" selected="@(dept.Value == Model.DepartmentId?.ToString())">@dept.Text</option>
+                }
+            </select>
+        </div>
+
+        @if (Model.Employee?.Department != null)
+        {
+            <div class="department department-info">
+                <span class="department-street">@Model.Employee.Department.Street</span>,
+                <span class="department-zipcode">@Model.Employee.Department.ZipCode</span>
+                <span class="department-city">@Model.Employee.Department.City</span>
+            </div>
+        }
+
+        <div class="actions">
+            <button type="submit" class="btn-save save-button">@(Model.Employee is null ? "Create" : "Save")</button>
+            <a href="/" class="btn-back">Cancel</a>
+        </div>
+    </form>
+
+    @if (Model.Employee is not null)
+    {
+        <form method="post" style="margin-top: 3rem; border-top: 1px solid #eee; padding-top: 1.5rem;">
+            <button type="submit" asp-page-handler="Delete" class="btn-delete delete-button"
+                    onclick="return confirm('Delete this employee?')">Delete Employee</button>
+        </form>
+    }
+</body>
+</html>
