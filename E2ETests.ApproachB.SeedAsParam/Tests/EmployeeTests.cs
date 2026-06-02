@@ -12,19 +12,19 @@ public class EmployeeTests : PlaywrightTestBase
 {
     [Theory]
     [SeedEmployeeWithDepartment]
-    public async Task Employee_ShouldSeeCorrectDepartmentStreet(SeededEntity<EmployeeWithDepartment> ctx)
+    public async Task Employee_ShouldSeeCorrectDepartmentStreet(SeededEntity<Employee> ctx)
     {
-        await Page.GotoAsync($"/employees/{ctx.Data.Employee.Id}");
+        await Page.GotoAsync($"/employees/{ctx.Data.Id}");
 
         await Expect(Page.Locator(".department-street"))
-            .ToHaveTextAsync(ctx.Data.Department.Street);
+            .ToHaveTextAsync(ctx.Data.Department!.Street);
     }
 
     [Theory]
     [SeedEmployeeWithDepartment(City = "Graz")]
-    public async Task Employee_ShouldSeeCorrectCity_AfterOverride(SeededEntity<EmployeeWithDepartment> ctx)
+    public async Task Employee_ShouldSeeCorrectCity_AfterOverride(SeededEntity<Employee> ctx)
     {
-        await Page.GotoAsync($"/employees/{ctx.Data.Employee.Id}");
+        await Page.GotoAsync($"/employees/{ctx.Data.Id}");
 
         await Expect(Page.Locator(".department-city"))
             .ToHaveTextAsync("Graz");

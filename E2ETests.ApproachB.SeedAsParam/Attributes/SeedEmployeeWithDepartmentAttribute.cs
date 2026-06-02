@@ -2,6 +2,7 @@ using E2ETests.Shared.Seeding.Builders;
 using E2ETests.Shared.Seeding.Infrastructure;
 using E2ETests.Shared.Seeding.Seeding;
 using System.Reflection;
+using WebApp.Entities;
 using Xunit;
 using Xunit.Sdk;
 using Xunit.v3;
@@ -28,10 +29,11 @@ public sealed class SeedEmployeeWithDepartmentAttribute : DataAttribute
                 if (City is not null) d.City = City;
             }));
         var employee = await seed.SeedAsync(EmployeeBuilder.Default(department.Id));
+        employee.Department = department;
 
-        var wrapper = new SeededEntity<EmployeeWithDepartment>(new(employee, department), seed);
+        var wrapper = new SeededEntity<Employee>(employee, seed);
         disposalTracker.Add(wrapper);
 
-        return [new TheoryDataRow<SeededEntity<EmployeeWithDepartment>>(wrapper)];
+        return [new TheoryDataRow<SeededEntity<Employee>>(wrapper)]; // TODO: Serializable warning
     }
 }
