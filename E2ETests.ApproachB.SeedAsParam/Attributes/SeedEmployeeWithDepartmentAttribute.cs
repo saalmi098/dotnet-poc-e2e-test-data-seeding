@@ -29,9 +29,9 @@ public sealed class SeedEmployeeWithDepartmentAttribute : DataAttribute
             }));
         var employee = await seed.SeedAsync(EmployeeBuilder.Default(department.Id));
 
-        var wrapper = new SeededEmployee(employee, department, seed);
+        var wrapper = new SeededEntity<EmployeeWithDepartment>(new(employee, department), seed);
         disposalTracker.Add(wrapper);
 
-        return [new TheoryDataRow<SeededEmployee>(wrapper)]; // TODO: warning: wrapper is not Serializable
+        return [new TheoryDataRow<SeededEntity<EmployeeWithDepartment>>(wrapper)];
     }
 }

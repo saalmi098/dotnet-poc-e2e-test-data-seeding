@@ -9,22 +9,23 @@ using Xunit.v3;
 namespace E2ETests.ApproachB.SeedAsParam.Attributes;
 
 [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
-public sealed class SeedEmployeeAttribute : DataAttribute
+public sealed class SeedAttribute<TBuilder, TEntity> : DataAttribute
+    where TBuilder : IEntityBuilder<TEntity>, new()
+    where TEntity : class
 {
     // false = skip discovery-time enumeration; async DB seed must not run at discovery
     public override bool SupportsDiscoveryEnumeration() => false;
 
-    /// <inheritdoc/>
     public override async ValueTask<IReadOnlyCollection<ITheoryDataRow>> GetData(
         MethodInfo testMethod,
         DisposalTracker disposalTracker)
     {
         var seed = new SeedingContext();
-        var employee = await seed.SeedAsync(EmployeeBuilder.Default());
+        var entity = await seed.SeedAsync(new TBuilder().Build());
 
-        var wrapper = new SeededEmployee(employee, null, seed);
-        disposalTracker.Add(wrapper); // TODO: what happens when this line is missing? The seed still gets disposed through SeededEmployee.DisposeAsync
+        var wrapper = new SeededEntity<TEntity>(entity, seed);
+        disposalTracker.Add(wrapper);
 
-        return [new TheoryDataRow<SeededEmployee>(wrapper)]; // TODO: warning: wrapper is not Serializable
+        return [new TheoryDataRow<SeededEntity<TEntity>>(wrapper)];
     }
 }
