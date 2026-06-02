@@ -1,10 +1,12 @@
+using E2ETests.Shared.Seeding.Infrastructure;
 using WebApp.Entities;
 
 namespace E2ETests.Shared.Seeding.Builders;
 
 public class EmployeeBuilder : IEntityBuilder<Employee>
 {
-    public Employee Build() => Default();
+    public Task<Employee> SeedAsync(SeedingContext seed)
+        => seed.SeedAsync(Default());
 
     public static Employee Default(int? departmentId = null, Action<Employee>? configure = null)
     {
@@ -15,6 +17,7 @@ public class EmployeeBuilder : IEntityBuilder<Employee>
             Email = $"test_{uid}@example.com",
             DepartmentId = departmentId
         };
+
         configure?.Invoke(e);
         return e;
     }

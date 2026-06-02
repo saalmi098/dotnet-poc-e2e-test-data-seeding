@@ -10,8 +10,12 @@ namespace E2ETests.ApproachB.SeedAsParam.Tests;
 
 public class EmployeeTests : PlaywrightTestBase
 {
+    // disadvantage when we dont use SeedMemberData: we need to duplicate the properties we want to customize in the builder
+    private static EmployeeWithDepartmentBuilder GrazEmployee =>
+        new() { ConfigureDepartment = d => { d.City = "Graz"; d.ZipCode = "8010"; } };
+
     [Theory]
-    [SeedEmployeeWithDepartment]
+    [Seed<EmployeeWithDepartmentBuilder, Employee>]
     public async Task Employee_ShouldSeeCorrectDepartmentStreet(SeededEntity<Employee> ctx)
     {
         await Page.GotoAsync($"/employees/{ctx.Data.Id}");
@@ -21,7 +25,7 @@ public class EmployeeTests : PlaywrightTestBase
     }
 
     [Theory]
-    [SeedEmployeeWithDepartment(City = "Graz")]
+    [SeedMemberData<Employee>(nameof(GrazEmployee))]
     public async Task Employee_ShouldSeeCorrectCity_AfterOverride(SeededEntity<Employee> ctx)
     {
         await Page.GotoAsync($"/employees/{ctx.Data.Id}");

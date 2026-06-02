@@ -7,6 +7,6 @@ public sealed class SeedAttribute<TBuilder, TEntity> : SeedAttributeBase<TEntity
     where TBuilder : IEntityBuilder<TEntity>, new()
     where TEntity : class
 {
-    protected override Task<TEntity> SeedAsync(SeedingContext seed)
-        => seed.SeedAsync(new TBuilder().Build());
+    protected override Task<TEntity> SeedAsync(SeedingContext seed) =>
+        new TBuilder().SeedAsync(seed);
 }

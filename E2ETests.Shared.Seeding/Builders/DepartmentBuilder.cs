@@ -1,10 +1,12 @@
+using E2ETests.Shared.Seeding.Infrastructure;
 using WebApp.Entities;
 
 namespace E2ETests.Shared.Seeding.Builders;
 
 public class DepartmentBuilder : IEntityBuilder<Department>
 {
-    public Department Build() => Default();
+    public Task<Department> SeedAsync(SeedingContext seed)
+        => seed.SeedAsync(Default());
 
     public static Department Default(Action<Department>? configure = null)
     {
