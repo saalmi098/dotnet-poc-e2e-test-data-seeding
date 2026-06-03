@@ -1,6 +1,7 @@
 using E2ETests.Shared.Seeding.Infrastructure;
 using Microsoft.Playwright;
 using Xunit;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace E2ETests.ApproachB.SeedAsParam.Infrastructure;
 
@@ -18,8 +19,6 @@ public abstract class PlaywrightTestBase : IAsyncLifetime
 
     public virtual async ValueTask InitializeAsync()
     {
-        await DbContextFactory.EnsureSchemaAsync();
-
         var headed = Environment.GetEnvironmentVariable("PLAYWRIGHT_HEADED") == "true";
 
         _playwright = await Playwright.CreateAsync();
@@ -40,5 +39,8 @@ public abstract class PlaywrightTestBase : IAsyncLifetime
         await BrowserContext.DisposeAsync();
         await _browser.DisposeAsync();
         _playwright.Dispose();
+
+        // Restore must live in IAsyncLifetime.DisposeAsync(): xUnit guarantees it runs before the next test's InitializeAsync(); DisposalTracker does not have this guarantee
+        await DatabaseSnapshot.RestoreAsync();
     }
 }

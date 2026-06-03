@@ -5,13 +5,13 @@ namespace E2ETests.Shared.Seeding.Infrastructure;
 
 public static class DbContextFactory
 {
-    private static readonly string ConnectionString =
+    public static readonly string ConnectionString =
         Environment.GetEnvironmentVariable("TEST_DB_CONNECTION")
-        ?? "Host=localhost;Port=5432;Database=testdb;Username=postgres;Password=postgres";
+        ?? "Server=localhost,1433;Database=testdb;User Id=sa;Password=Strong!Passw0rd;TrustServerCertificate=True";
 
     private static readonly DbContextOptions<AppDbContext> _options =
         new DbContextOptionsBuilder<AppDbContext>()
-            .UseNpgsql(ConnectionString)
+            .UseSqlServer(ConnectionString)
             .Options;
 
     public static AppDbContext Create() => new(_options);

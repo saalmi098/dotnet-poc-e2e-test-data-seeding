@@ -19,7 +19,7 @@ public abstract class PlaywrightTestBase : IAsyncLifetime
 
     public virtual async ValueTask InitializeAsync()
     {
-        await DbContextFactory.EnsureSchemaAsync();
+        await DatabaseSnapshot.CreateAsync();
 
         Seed = new SeedingContext();
 
@@ -44,5 +44,6 @@ public abstract class PlaywrightTestBase : IAsyncLifetime
         await BrowserContext.DisposeAsync();
         await _browser.DisposeAsync();
         _playwright.Dispose();
+        await DatabaseSnapshot.RestoreAsync();
     }
 }

@@ -5,9 +5,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddRazorPages();
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(
+    options.UseSqlServer(
         builder.Configuration.GetConnectionString("Default")
-        ?? "Host=localhost;Port=5432;Database=testdb;Username=postgres;Password=postgres"));
+        ?? "Server=localhost,1433;Database=testdb;User Id=sa;Password=Strong!Passw0rd;TrustServerCertificate=True"));
 
 var app = builder.Build();
 

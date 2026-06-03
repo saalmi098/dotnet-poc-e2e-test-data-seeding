@@ -19,6 +19,7 @@ public sealed class SeedEmployeeAttribute : DataAttribute
         MethodInfo testMethod,
         DisposalTracker disposalTracker)
     {
+        await DatabaseSnapshot.CreateAsync();
         var seed = new SeedingContext();
         var employee = await seed.SeedAsync(EmployeeBuilder.Default());
 
