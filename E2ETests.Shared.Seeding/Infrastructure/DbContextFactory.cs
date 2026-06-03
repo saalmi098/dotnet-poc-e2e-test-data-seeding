@@ -5,7 +5,7 @@ namespace E2ETests.Shared.Seeding.Infrastructure;
 
 public static class DbContextFactory
 {
-    private static readonly string ConnectionString =
+    public static readonly string ConnectionString =
         Environment.GetEnvironmentVariable("TEST_DB_CONNECTION")
         ?? "Host=localhost;Port=5432;Database=testdb;Username=postgres;Password=postgres";
 
@@ -20,5 +20,6 @@ public static class DbContextFactory
     {
         await using var db = Create();
         await db.Database.EnsureCreatedAsync();
+        await DatabaseResetter.EnsureInitializedAsync();
     }
 }
