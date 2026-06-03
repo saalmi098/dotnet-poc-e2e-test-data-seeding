@@ -3,4 +3,5 @@
   <Project Path="E2ETests.ApproachA.SeedInBody/E2ETests.ApproachA.SeedInBody.csproj" />
   <Project Path="E2ETests.ApproachB.SeedAsParam/E2ETests.ApproachB.SeedAsParam.csproj" />
   <Project Path="WebApp/WebApp.csproj" />
+  <Project Path="E2ETests.ApproachC.Testcontainers/E2ETests.ApproachC.Testcontainers.csproj" />
 </Solution>

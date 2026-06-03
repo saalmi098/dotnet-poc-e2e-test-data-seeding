@@ -8,7 +8,9 @@
       "Bash(Remove-Item \"C:\\\\Users\\\\Andi\\\\repos\\\\poc-test-data-seeding\\\\E2ETests\\\\Entities\\\\Department.cs\")",
       "Bash(Remove-Item \"C:\\\\Users\\\\Andi\\\\repos\\\\poc-test-data-seeding\\\\E2ETests\\\\Entities\\\\Employee.cs\")",
       "Bash(Remove-Item \"C:\\\\Users\\\\Andi\\\\repos\\\\poc-test-data-seeding\\\\E2ETests\\\\Infrastructure\\\\AppDbContext.cs\")",
-      "Bash(Remove-Item \"C:\\\\Users\\\\Andi\\\\repos\\\\poc-test-data-seeding\\\\E2ETests\\\\Entities\" -Recurse)"
+      "Bash(Remove-Item \"C:\\\\Users\\\\Andi\\\\repos\\\\poc-test-data-seeding\\\\E2ETests\\\\Entities\" -Recurse)",
+      "Bash(taskkill /PID 26504 /F)",
+      "PowerShell(Stop-Process *)"
     ]
   }
 }
