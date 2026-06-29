@@ -20,17 +20,20 @@ public abstract class PlaywrightTestBase : IAsyncLifetime
     {
         await DbContextFactory.EnsureSchemaAsync();
 
-        var headed = Environment.GetEnvironmentVariable("PLAYWRIGHT_HEADED") == "true";
+        //var headed = Environment.GetEnvironmentVariable("PLAYWRIGHT_HEADED") == "true";
+        var headed = true;
 
         _playwright = await Playwright.CreateAsync();
         _browser = await _playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions
         {
             Headless = !headed,
-            SlowMo = headed ? 500 : 0
+            SlowMo = headed ? 1_000 : 0
         });
         BrowserContext = await _browser.NewContextAsync(new BrowserNewContextOptions
         {
-            BaseURL = BaseUrl
+            BaseURL = BaseUrl,
+            RecordVideoDir = "videos/",
+            RecordVideoSize = new RecordVideoSize { Width = 1280, Height = 720 }
         });
         Page = await BrowserContext.NewPageAsync();
     }
