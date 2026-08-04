@@ -10,20 +10,21 @@ public class EmployeeTests : PlaywrightTestBase
     [Fact]
     public async Task Employee_ShouldSeeCorrectDepartmentStreet()
     {
-        var department = await Seed.SeedAsync(DepartmentFaker.Default());
-        var employee = await Seed.SeedAsync(EmployeeFaker.Default(department.Id));
+        // Department not seeded separately: EmployeeFaker.Default() auto-generates one via the
+        // Department navigation property, and SeedAsync inserts both in a single SaveChanges call.
+        var employee = await Seed.SeedAsync(EmployeeFaker.Default());
 
         await Page.GotoAsync($"/employees/{employee.Id}");
 
         await Expect(Page.Locator(".department-street"))
-            .ToHaveTextAsync(department.Street);
+            .ToHaveTextAsync(employee.Department!.Street);
     }
 
     [Fact]
     public async Task Employee_ShouldSeeCorrectCity_AfterOverride()
     {
-        var department = await Seed.SeedAsync(DepartmentFaker.Default(d => d.City = "Graz"));
-        var employee = await Seed.SeedAsync(EmployeeFaker.Default(department.Id));
+        var department = DepartmentFaker.Default(d => d.City = "Graz");
+        var employee = await Seed.SeedAsync(EmployeeFaker.Default(department));
 
         await Page.GotoAsync($"/employees/{employee.Id}");
 
@@ -34,7 +35,7 @@ public class EmployeeTests : PlaywrightTestBase
     [Fact]
     public async Task Employee_WithoutDepartment_ShowsNoAddress()
     {
-        var employee = await Seed.SeedAsync(EmployeeFaker.Default());
+        var employee = await Seed.SeedAsync(EmployeeFaker.WithoutDepartment());
 
         await Page.GotoAsync($"/employees/{employee.Id}");
 
@@ -45,7 +46,7 @@ public class EmployeeTests : PlaywrightTestBase
     [Fact]
     public async Task Employee_UpdateName_ShouldPersistAfterSave()
     {
-        var employee = await Seed.SeedAsync(EmployeeFaker.Default());
+        var employee = await Seed.SeedAsync(EmployeeFaker.WithoutDepartment());
 
         await Page.GotoAsync($"/employees/{employee.Id}");
         await Page.Locator("#Name").FillAsync("Updated Name");
