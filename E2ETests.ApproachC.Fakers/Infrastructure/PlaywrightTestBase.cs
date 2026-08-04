@@ -19,6 +19,8 @@ public abstract class PlaywrightTestBase : IAsyncLifetime
 
     public virtual async ValueTask InitializeAsync()
     {
+        await DatabaseSnapshot.CreateAsync();
+
         Seed = new SeedingContext();
 
         var headed = Environment.GetEnvironmentVariable("PLAYWRIGHT_HEADED") == "true";
@@ -42,5 +44,7 @@ public abstract class PlaywrightTestBase : IAsyncLifetime
         await BrowserContext.DisposeAsync();
         await _browser.DisposeAsync();
         _playwright.Dispose();
+
+        await DatabaseSnapshot.RestoreAsync();
     }
 }
