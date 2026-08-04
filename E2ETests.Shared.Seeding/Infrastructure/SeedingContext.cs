@@ -31,6 +31,7 @@ public sealed class SeedingContext : IAsyncDisposable
         // TODO 2: Since we now don't call SeedAsync for all dependent data (for example in Approach C, where if the department is default, we don't seed it),
         // we may have foreign key dependencies that are not cleaned up. For example, if we seed an employee with a default department (for which SeedAsync is not called),
         // the cleanup will delete the employee but not the department
+        // --> should be irrelevant if we use throw-away DBs/containers for each test
 
         return entity;
     }
