@@ -21,7 +21,6 @@ public sealed class SeedEmployeeWithDepartmentAttribute : DataAttribute
         MethodInfo testMethod,
         DisposalTracker disposalTracker)
     {
-        await DatabaseSnapshot.CreateAsync(); // For xUnit Theory attributes: snapshot must be created in GetData() before seeding, because GetData() runs before InitializeAsync()
         var seed = new SeedingContext();
         var department = await seed.SeedAsync(
             DepartmentBuilder.Default(d =>

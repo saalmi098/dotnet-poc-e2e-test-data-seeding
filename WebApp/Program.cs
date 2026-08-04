@@ -20,4 +20,4 @@ using (var scope = app.Services.CreateScope())
 app.UseRouting();
 app.MapRazorPages();
 
-app.Run();
+await app.RunAsync();

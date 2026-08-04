@@ -5,6 +5,7 @@ namespace E2ETests.Shared.Seeding.Infrastructure;
 public sealed class SeedingContext : IAsyncDisposable
 {
     private readonly AppDbContext _db;
+    private readonly Stack<Func<Task>> _cleanups = new();
 
     public SeedingContext() => _db = DbContextFactory.Create();
 
@@ -12,8 +13,29 @@ public sealed class SeedingContext : IAsyncDisposable
     {
         await _db.Set<T>().AddAsync(entity);
         await _db.SaveChangesAsync();
+
+        // capture ref for cleanup; stack = reverse-insert order
+        _cleanups.Push(async () =>
+        {
+            _db.Set<T>().Remove(entity);
+            await _db.SaveChangesAsync();
+        });
+
+        // TODO: This kind of cleanup is fragile because:
+        // - The employee may already be deleted. (for example in a test that tests deletion)
+        // - The entity may be tracked in an old state. (for example in a test that tests updates)
+        // - Foreign key dependencies may still exist.
+        // - A test might partially modify or move the data.
+        // - EF Core may throw concurrency exceptions for expected - but - missing rows.
+
         return entity;
     }
 
-    public async ValueTask DisposeAsync() => await _db.DisposeAsync();
+    public async ValueTask DisposeAsync()
+    {
+        while (_cleanups.TryPop(out var cleanup))
+            await cleanup();
+
+        await _db.DisposeAsync();
+    }
 }
