@@ -10,7 +10,7 @@ public sealed class SeedingContext : IAsyncDisposable
 
     public async Task<T> SeedAsync<T>(T entity) where T : class
     {
-        _db.Set<T>().Add(entity);
+        await _db.Set<T>().AddAsync(entity);
         await _db.SaveChangesAsync();
         return entity;
     }
